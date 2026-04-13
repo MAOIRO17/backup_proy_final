@@ -21,13 +21,11 @@ options.add_argument('--start-maximized')
 options.add_argument('--disable-extensions')
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
-
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 try:
     driver.get("https://www.pcbox.com/smartphones-telefonia-y-wearables/smartphones")
     time.sleep(8)
-
     for i in range(10):
         print(f"Scrapeando página {i}...")
         try:
@@ -42,17 +40,14 @@ try:
             break
 
     productos = driver.find_elements(By.TAG_NAME, 'article')
-
     for producto in productos:
         try:
             nombre_elem = producto.find_element(By.TAG_NAME, 'h3')
             entero_elem = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyInteger')
             fraccion_elem = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyFraction')
-            
             nombre = nombre_elem.text.replace('TELEFONO MOVIL LIBRE', '').replace('SMARTPHONE', '').strip()
             entero = entero_elem.text.replace('.', '').replace(',', '').strip()
             fraccion = fraccion_elem.text.strip()
-            
             precio_final = float(f"{entero}.{fraccion}")
 
             if nombre:
