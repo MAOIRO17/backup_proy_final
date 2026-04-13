@@ -29,7 +29,6 @@ try:
     time.sleep(8)
 
     for i in range(10):
-	print("Scraping PcBox")
         print(f"Scrapeando página {i}...")
         try:
             boton_cargar_mas = WebDriverWait(driver, 10).until(
