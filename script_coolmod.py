@@ -24,7 +24,8 @@ data_por = []
 
 try:
     for pagina in range(1, 10):
-        print(f"Scrapeando página {pagina}...")
+        print("Scrapeando Coolmod")
+	print(f"Scrapeando página {pagina}...")
         driver.get(f"https://www.coolmod.com/portatiles-portatiles/?pagina={pagina}")
         time.sleep(8)
 
