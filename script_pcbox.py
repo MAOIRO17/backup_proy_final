@@ -1,63 +1,67 @@
-import pandas as pd
-import os
-import time
-import random
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd
+import time
+import random
+import os
+from datetime import datetime
 
+fecha_diaria = datetime.now().strftime("%Y-%m-%d")
 output_dir = "/mnt/bigdata/smart"
-fecha_diaria = time.strftime("%Y-%m-%d")
-data_tel = []
+
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-options = Options()
-options.add_argument('--start-maximized')
-options.add_argument('--disable-extensions')
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+options = uc.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+driver = uc.Chrome(options=options)
+
+data_tel = []
 
 try:
-    driver.get("https://www.pcbox.com/smartphones-telefonia-y-wearables/smartphones")
-    time.sleep(8)
+    print("Scrapeando PcBox...")
+    url = "https://www.pcbox.com/smartphones-telefonia-y-wearables/smartphones"
+    driver.get(url)
+    time.sleep(8) 
+
     for i in range(10):
-        print(f"Scrapeando página {i}...")
         try:
+            print(f"scrapeando página {i+1}")
             boton_cargar_mas = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "a[class*='vtex-button'][href*='page=']"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "a.vtex-button[href*='page=']"))
             )
             driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", boton_cargar_mas)
             time.sleep(2)
             driver.execute_script("arguments[0].click();", boton_cargar_mas)
             time.sleep(random.uniform(4, 6))
-        except Exception:
+        except:
             break
 
-    productos = driver.find_elements(By.TAG_NAME, 'article')
+    productos = driver.find_elements(By.CSS_SELECTOR, 'section.vtex-product-summary-2-x-container')
+
     for producto in productos:
         try:
-            nombre_elem = producto.find_element(By.TAG_NAME, 'h3')
-            entero_elem = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyInteger')
-            fraccion_elem = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyFraction')
-            nombre = nombre_elem.text.replace('TELEFONO MOVIL LIBRE', '').replace('SMARTPHONE', '').strip()
-            entero = entero_elem.text.replace('.', '').replace(',', '').strip()
-            fraccion = fraccion_elem.text.strip()
+            nombre = producto.find_element(By.CSS_SELECTOR, 'span.vtex-product-summary-2-x-productBrand').text
+            entero = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyInteger').text
+            fraccion = producto.find_element(By.CLASS_NAME, 'ticnova-product-price-1-x-currencyFraction').text
+            
+            nombre_limpio = nombre.replace('TELEFONO MOVIL LIBRE','').replace('SMARTPHONE','').strip()
+            entero = entero.replace('.', '').replace(',', '')
             precio_final = float(f"{entero}.{fraccion}")
-
-            if nombre:
+            
+            if nombre_limpio:
                 data_tel.append({
-                    "Nombre": nombre,
+                    "Nombre": nombre_limpio,
                     "Precio": precio_final,
                     "Tienda": "PCBOX",
                     "Fecha": fecha_diaria
                 })
-        except Exception:
+        except:
             continue
 
 finally:
@@ -65,8 +69,5 @@ finally:
 
 if data_tel:
     df_tel = pd.DataFrame(data_tel)
-    csv_path = os.path.join(output_dir, f"smartphones_PcBox_{fecha_diaria}.csv")
-    df_tel.to_csv(csv_path, index=False, encoding="utf-8-sig")
-    print(f"Archivo guardado en {csv_path}")
-else:
-    print("No se encontraron datos")
+    filename = f"{output_dir}/smartphones_PcBox_{fecha_diaria}.csv"
+    df_tel.to_csv(filename, index=False, encoding="utf-8-sig")
