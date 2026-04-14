@@ -21,7 +21,7 @@ driver = uc.Chrome(options=options)
 
 def scrapear_pccomponentes(categorias_dict):
     for categoria, info in categorias_dict.items():
-        print(f"Escrapeando pc box")
+        print(f"Escrapeando PcComponentes")
         lista_datos = []
         
         for p in info['urls']:
