@@ -38,7 +38,7 @@ def realizar_comparativa_kaggle(path_tienda, path_referencia, nombre_salida):
         df_final = df_tienda.merge(df_ref, left_on='Nombre_Ref_Match', right_on=col_ref_nombre)
         df_final['Diferencia €'] = (df_final['Precio_Referencia'] - df_final['Precio_Tienda']).round(2)
         df_final['MayorPrecio'] = df_final['Diferencia €'].apply(
-            lambda x: "Tienda Local" if x < 0 else ("Referencia/Kaggle" if x > 0 else "Mismo Precio")
+            lambda x: "PcComponentes" if x < 0 else ("Kaggle" if x > 0 else "Mismo Precio")
         )
         
         columnas_finales = {'Nombre_Tienda': 'Producto', 'Precio_Tienda': 'Precio Tienda', 
