@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 
 fecha_diaria = datetime.now().strftime("%Y-%m-%d")
-base_output_path = "/mnt/bigdata/comparaciones/"
+base_output_path = "/mnt/bigdata/datasets/comparaciones/"
 os.makedirs(base_output_path, exist_ok=True)
 
 def realizar_comparativa_kaggle(path_tienda, path_referencia, nombre_salida):
@@ -99,9 +99,9 @@ def realizar_comparativa_tiendas(path_tienda_a, path_tienda_b, nombre_salida, et
     except Exception as e: print(f"Error Tiendas {nombre_salida}: {e}")
 
 # --- KAGGLE ---
-realizar_comparativa_kaggle(f'smart/smartphones_PcBox_{fecha_diaria}.csv', 'dt_kaggle/2025_All_mobiles_Dataset.csv', 'comp_smart_PcBox_Kaggle')
-realizar_comparativa_kaggle(f'comp/componentes_PcComp_{fecha_diaria}.csv', 'dt_kaggle/prices_components.csv', 'comp_componentes_PcComp_Kaggle')
+realizar_comparativa_kaggle(f'datasets/smart/smartphones_PcBox_{fecha_diaria}.csv', 'datasets/dt_kaggle/2025_All_mobiles_Dataset.csv', 'comp_smart_PcBox_Kaggle')
+realizar_comparativa_kaggle(f'datasets/comp/componentes_PcComp_{fecha_diaria}.csv', 'datasets/dt_kaggle/prices_components.csv', 'comp_componentes_PcComp_Kaggle')
 
 # --- TIENDA VS TIENDA ---
-realizar_comparativa_tiendas(f'port/portátiles_Coolmod_{fecha_diaria}.csv', f'port/portátiles_PcComp_{fecha_diaria}.csv', 'comp_port_PcComp_Coolmod', 'Coolmod', 'PcComponentes')
-realizar_comparativa_tiendas(f'smart/smartphones_PcBox_{fecha_diaria}.csv', f'smart/smartphones_PcComp_{fecha_diaria}.csv', 'comp_smart_PcComp_PcBox', 'PcBox', 'PcComponentes')
+realizar_comparativa_tiendas(f'datasets/port/portátiles_Coolmod_{fecha_diaria}.csv', f'datasets/port/portátiles_PcComp_{fecha_diaria}.csv', 'comp_port_PcComp_Coolmod', 'Coolmod', 'PcComponentes')
+realizar_comparativa_tiendas(f'datasets/smart/smartphones_PcBox_{fecha_diaria}.csv', f'datasets/smart/smartphones_PcComp_{fecha_diaria}.csv', 'comp_smart_PcComp_PcBox', 'PcBox', 'PcComponentes')

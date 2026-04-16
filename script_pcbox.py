@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 
 fecha_diaria = datetime.now().strftime("%Y-%m-%d")
-output_dir = "/mnt/bigdata/smart"
+output_dir = "/mnt/bigdata/datasets/smart"
 
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)

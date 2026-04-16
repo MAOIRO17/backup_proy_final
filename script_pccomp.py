@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 
 fecha_diaria = datetime.now().strftime("%Y-%m-%d")
-base_path = "/mnt/bigdata/"
+base_path = "/mnt/bigdata/datasets/"
 
 for carpeta in ['port', 'smart', 'comp']:
     os.makedirs(os.path.join(base_path, carpeta), exist_ok=True)
@@ -92,4 +92,3 @@ try:
 
 finally:
     driver.quit()
-    print("Navegador cerrado.")
