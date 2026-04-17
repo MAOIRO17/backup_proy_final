@@ -52,7 +52,7 @@ def extraer_categoria(url_base, max_paginas, path_final, componente_tag=None):
                         item = {
                             "Nombre": nombre,
                             "Precio": float(precio) if precio else 0.0,
-                            "Valoracion": valoracion,
+                            "Valoracion": valoracion if valoracion else None,
                             "Tienda": "PcComponentes",
                             "Fecha": fecha_diaria
                         }
@@ -78,7 +78,7 @@ def extraer_categoria(url_base, max_paginas, path_final, componente_tag=None):
         print(f"   ERROR: No se capturaron datos.")
 
 try:
-    extraer_categoria("https://www.pccomponentes.com/portatiles", 9, f"{base_path}port/portátiles_PcComp_{fecha_diaria}.csv")
+    extraer_categoria("https://www.pccomponentes.com/portatiles", 9, f"{base_path}port/portatiles_PcComp_{fecha_diaria}.csv")
     
     extraer_categoria("https://www.pccomponentes.com/smartphone-moviles", 9, f"{base_path}smart/smartphones_PcComp_{fecha_diaria}.csv")
 

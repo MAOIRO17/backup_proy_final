@@ -86,8 +86,8 @@ realizar_comparativa_kaggle(
 )
 
 realizar_comparativa_tiendas(
-    f'{base_path}port/portátiles_Coolmod_{fecha}.csv', 
-    f'{base_path}port/portátiles_PcComp_{fecha}.csv', 
+    f'{base_path}port/portatiles_Coolmod_{fecha}.csv', 
+    f'{base_path}port/portatiles_PcComp_{fecha}.csv', 
     'comp_port_PcComp_Coolmod', 'Coolmod', 'PcComp'
 )
 

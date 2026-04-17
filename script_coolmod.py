@@ -45,5 +45,5 @@ finally:
 
 if data_por:
     df = pd.DataFrame(data_por)
-    df.to_csv(f"/mnt/bigdata/datasets/port/portátiles_Coolmod_{fecha_diaria}.csv", index=False, encoding="utf-8-sig")
+    df.to_csv(f"/mnt/bigdata/datasets/port/portatiles_Coolmod_{fecha_diaria}.csv", index=False, encoding="utf-8-sig")
 
