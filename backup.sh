@@ -9,7 +9,6 @@ conda activate scraping
 cd /mnt/bigdata
 
 # 3. Subir los cambios a GitHub
-# No hace falta poner el token aquí, ya lo guardamos en el 'git remote'
 git config --global core.quotepath false
 git add .
 git commit -m "Backup automático: $(date '+%Y-%m-%d %H:%M:%S')"
